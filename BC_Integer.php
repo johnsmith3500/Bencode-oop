@@ -1,11 +1,8 @@
 <?php
-class BC_Integer
-{
-	public $start;
-	public $end;
-	public $encoded;
-	public $decoded;
+require_once 'BencodeEntity.php';
 
+class BC_Integer extends BencodeEntity
+{
 	public function __construct($str, $pos)
 	{
 		$this->start=$pos;
@@ -13,11 +10,6 @@ class BC_Integer
 		$this->encoded=substr($str, $this->start, $this->end - $this->start);
 		$this->decode();
 
-	}
-
-	public function length()
-	{
-		return $this->end - $this->start;
 	}
 
 	public function decode()

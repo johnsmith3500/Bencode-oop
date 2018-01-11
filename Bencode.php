@@ -1,5 +1,6 @@
 <?php
 require_once 'BC_Integer.php';
+
 class Bencode
 {
 	public $decoded;
@@ -29,8 +30,8 @@ class Bencode
 			if($this->encoded[$this->currentPosition] == 'i')
 			{
 				$temp=new BC_Integer($this->encoded, $this->currentPosition);
-				$this->decoded[]=$temp->decoded;
-				$this->currentPosition=$temp->end;
+				$this->decoded[]=$temp->getDecoded();
+				$this->currentPosition=$temp->getEnd();
 			}
 			else
 				$this->currentPosition++;
