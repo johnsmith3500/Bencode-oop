@@ -1,12 +1,11 @@
 <?php
 require_once 'BC_Integer.php';
+require_once 'BencodeEntity.php';
 
-class Bencode
+class Bencode extends BencodeEntity
 {
-	public $decoded;
-	public $currentPosition;
-	public $encoded;
-	public $totalLength;
+	private $currentPosition;
+	private $totalLength;
 
 	public function __construct($str)
 	{
@@ -36,10 +35,5 @@ class Bencode
 			else
 				$this->currentPosition++;
 		}
-	}
-
-	public function decoded()
-	{
-		return $this->decoded;
 	}
 }
