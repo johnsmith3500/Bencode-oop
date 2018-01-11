@@ -29,7 +29,8 @@
         {
             if(!empty($_POST['bencode']))
             {
-                print $bencode=$_POST['bencode'].'<br>';
+                $bencode=$_POST['bencode'];
+                print '<br>'.$bencode.'<br>';
                 $obj=new Bencode($bencode);
                 $obj->decode();
                 print '<pre>'.print_r($obj->getDecoded(), 1).'</pre>';

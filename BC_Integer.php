@@ -7,13 +7,13 @@ class BC_Integer extends BencodeEntity
 	{
 		$this->start=$pos;
 		$this->end=strpos($str, 'e', $this->start);
-		$this->encoded=substr($str, $this->start, $this->end - $this->start);
+		$this->encodedPiece=substr($str, $this->start, $this->end - $this->start);
 		$this->decode();
 
 	}
 
 	public function decode()
 	{
-		$this->decoded=trim($this->encoded, 'ie');
+		$this->decoded=trim($this->encodedPiece, 'ie');
 	}
 }

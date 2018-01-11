@@ -6,7 +6,8 @@ abstract class BencodeEntity
 {
 	protected $start;
 	protected $end;
-	protected $encoded;
+	protected $encodedString;
+	protected $encodedPiece;
 	protected $decoded;
 
 	public function getStart()
@@ -17,9 +18,13 @@ abstract class BencodeEntity
 	{
 		return $this->end;
 	}
-	public function getEncoded()
+	public function getEncodedString()
 	{
-		return $this->encoded;
+		return $this->encodedString;
+	}
+	public function getEncodedPiece()
+	{
+		return $this->encodedPiece;
 	}
 	public function getDecoded()
 	{
