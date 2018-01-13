@@ -39,6 +39,12 @@ class BC_List extends BencodeEntity
 				$this->decoded[]=$temp->getDecoded();
 				$currentPosition=$temp->getEnd()+1;
 			}
+			else if(is_numeric($this->encodedString[$currentPosition]))	// We have string
+			{
+				$temp=new BC_String($this->encodedString, $currentPosition);
+				$this->decoded[]=$temp->getDecoded();
+				$currentPosition=$temp->getEnd()+1;
+			}
 			else
 				$currentPosition++;
 

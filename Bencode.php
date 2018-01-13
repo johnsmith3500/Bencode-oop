@@ -1,6 +1,7 @@
 <?php
 require_once 'BencodeEntity.php';
 require_once 'BC_Integer.php';
+require_once 'BC_String.php';
 require_once 'BC_List.php';
 
 class Bencode extends BencodeEntity
@@ -36,6 +37,12 @@ class Bencode extends BencodeEntity
 			else if($this->encodedString[$this->currentPosition] == 'l')	// We have list
 			{
 				$temp=new BC_List($this->encodedString, $this->currentPosition);
+				$this->decoded[]=$temp->getDecoded();
+				$this->currentPosition=$temp->getEnd()+1;
+			}
+			else if(is_numeric($this->encodedString[$this->currentPosition]))	// We have string
+			{
+				$temp=new BC_String($this->encodedString, $this->currentPosition);
 				$this->decoded[]=$temp->getDecoded();
 				$this->currentPosition=$temp->getEnd()+1;
 			}
