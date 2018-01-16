@@ -3,6 +3,7 @@ require_once 'BencodeEntity.php';
 require_once 'BC_Integer.php';
 require_once 'BC_String.php';
 require_once 'BC_List.php';
+require_once 'BC_Dictionary.php';
 
 class Bencode extends BencodeEntity
 {
@@ -43,6 +44,12 @@ class Bencode extends BencodeEntity
 			else if(is_numeric($this->encodedString[$this->currentPosition]))	// We have string
 			{
 				$temp=new BC_String($this->encodedString, $this->currentPosition);
+				$this->decoded[]=$temp->getDecoded();
+				$this->currentPosition=$temp->getEnd()+1;
+			}
+			else if($this->encodedString[$this->currentPosition] == 'd')	// We have dictionary
+			{
+				$temp=new BC_Dictionary($this->encodedString, $this->currentPosition);
 				$this->decoded[]=$temp->getDecoded();
 				$this->currentPosition=$temp->getEnd()+1;
 			}
