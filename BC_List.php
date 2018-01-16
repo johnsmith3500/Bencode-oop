@@ -25,30 +25,25 @@ class BC_List extends BencodeEntity
 
 			if($this->encodedString[$currentPosition] == 'i')	// We have integer
 			{
-
-				$temp=new BC_Integer($this->encodedString, $currentPosition);
-				$this->decoded[]=$temp->getDecoded();
-				$currentPosition=$temp->getEnd()+1;
-
-				
+				$temp=new BC_Integer($this->encodedString, $currentPosition);				
 			}
 			else if($this->encodedString[$currentPosition] == 'l')	// We have list
 			{
-
 				$temp=new BC_List($this->encodedString, $currentPosition);
-				$this->decoded[]=$temp->getDecoded();
-				$currentPosition=$temp->getEnd()+1;
+			}
+			else if($this->encodedString[$currentPosition] == 'd')	// We have dictionary
+			{
+				$temp=new BC_Dictionary($this->encodedString, $currentPosition);
 			}
 			else if(is_numeric($this->encodedString[$currentPosition]))	// We have string
 			{
 				$temp=new BC_String($this->encodedString, $currentPosition);
-				$this->decoded[]=$temp->getDecoded();
-				$currentPosition=$temp->getEnd()+1;
 			}
-			else
-				$currentPosition++;
 
+			$this->decoded[]=$temp->getDecoded();
+			$currentPosition=$temp->getEnd()+1;
 		}
+
 		$this->end=$currentPosition;
 
 	}		
