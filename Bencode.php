@@ -7,54 +7,31 @@ require_once 'BC_Dictionary.php';
 
 class Bencode extends BencodeEntity
 {
-	private $currentPosition;
-	private $totalLength;
-
 	public function __construct($str)
 	{
+		$this->start=0;
 		$this->encodedString=$str;
-		$this->currentPosition=0;
-		$this->totalLength=strlen($this->encodedString);
+
+		$this->decode();
 	}
 
 	public function decode()
 	{
-		// Make root array
-		if($this->encodedString[$this->currentPosition] == 'l')
+		$currentPosition=$this->start;
+		
+		// Go through the encoded string
+		if($this->encodedString[$currentPosition] == 'l')	// We have list in root
 		{
-			$this->decoded=array();
-			$this->currentPosition++;
+			$this->decoded=(new BC_List($this->encodedString, $currentPosition))->getDecoded();
 		}
-
-		// Go through the string
-		while($this->encodedString[$this->currentPosition] != 'e')
+		else if($this->encodedString[$currentPosition] == 'd')	// We have dictionary in root
 		{
-			if($this->encodedString[$this->currentPosition] == 'i')	// We have integer
-			{
-				$temp=new BC_Integer($this->encodedString, $this->currentPosition);
-				$this->decoded[]=$temp->getDecoded();
-				$this->currentPosition=$temp->getEnd()+1;
-			}
-			else if($this->encodedString[$this->currentPosition] == 'l')	// We have list
-			{
-				$temp=new BC_List($this->encodedString, $this->currentPosition);
-				$this->decoded[]=$temp->getDecoded();
-				$this->currentPosition=$temp->getEnd()+1;
-			}
-			else if(is_numeric($this->encodedString[$this->currentPosition]))	// We have string
-			{
-				$temp=new BC_String($this->encodedString, $this->currentPosition);
-				$this->decoded[]=$temp->getDecoded();
-				$this->currentPosition=$temp->getEnd()+1;
-			}
-			else if($this->encodedString[$this->currentPosition] == 'd')	// We have dictionary
-			{
-				$temp=new BC_Dictionary($this->encodedString, $this->currentPosition);
-				$this->decoded[]=$temp->getDecoded();
-				$this->currentPosition=$temp->getEnd()+1;
-			}
-			else
-				$this->currentPosition++;
+			$this->decoded=(new BC_Dictionary($this->encodedString, $currentPosition))->getDecoded();
+		}
+		else 	// Invalid char
+		{
+			print 'ERROR! Wrong data.';
+			exit(1);
 		}
 	}
 }

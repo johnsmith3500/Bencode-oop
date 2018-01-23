@@ -32,7 +32,7 @@
                 $bencode=$_POST['bencode'];
                 print '<br>'.$bencode.'<br>';
                 $obj=new Bencode($bencode);
-                $obj->decode();
+            //    $obj->decode();
                 print '<pre>'.print_r($obj->getDecoded(), 1).'</pre>';
             }
         }
