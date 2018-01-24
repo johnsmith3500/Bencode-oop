@@ -12,7 +12,7 @@
     </head>
     <body>
 
-
+    <div class="container-fluid">
         <form method="POST">
             <div class="form-group">
                 <label for="bencode">Bencode</label>
@@ -22,23 +22,40 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
+        <form enctype="multipart/form-data" method="POST">
+            <div class="form-group">
+                <input type="hidden" name="MAX_FILE_SIZE" value="300000" />
+                <label>Input torrent file:</label>
+                <input type="file" name="bfile" class="form-control-file"> 
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
         <?php
         require_once 'Bencode.php';
 
         if($_SERVER['REQUEST_METHOD'] == 'POST')
         {
+
             if(!empty($_POST['bencode']))
             {
                 $bencode=$_POST['bencode'];
                 print '<br>'.$bencode.'<br>';
                 $obj=new Bencode($bencode);
-            //    $obj->decode();
+                print '<pre>'.print_r($obj->getDecoded(), 1).'</pre>';
+            }
+
+            if(!empty($_FILES))
+            {
+                $bencode=file_get_contents($_FILES['bfile']['tmp_name']);
+                $obj=new Bencode($bencode);
+                print $_FILES['bfile']['name'];
                 print '<pre>'.print_r($obj->getDecoded(), 1).'</pre>';
             }
         }
 
         ?>
-
+    </div>
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
